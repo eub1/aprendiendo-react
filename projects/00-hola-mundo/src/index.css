@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  background: #222;
+  font-family: system-ui;
+  display: grid;
+  place-content: center;
+  min-height: 100 vh;
+}
+
+/* place-content -> para centrar
