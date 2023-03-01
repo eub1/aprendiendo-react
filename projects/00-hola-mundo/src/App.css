@@ -40,8 +40,40 @@
   border-radius: 999px;
   padding: 6px 16px;
   font-weight: bold;
-}
-.tw-followCard-button:hover {
-  background-color: #09f;
+  border: 1px solid #000;
   transition: .3s ease background-color;
+}
+
+.tw-followCard-button:hover {
+  opacity: .8;
+}
+
+.tw-followCard-text {
+  display: block;
+}
+
+.tw-followCard-button.is-Following {
+  border: 1px solid #bbb;
+  background: transparent;
+  color: #fff;
+  width: 120px;
+}
+
+.tw-followCard-button.is-Following:hover {
+ background: rgb(255, 0,0,0.178);
+ color: red;
+ border: 1px solid red;
+ transition: .3s ease all;
+}
+
+.tw-followCard-button.is-Following:hover .tw-followCard-text{
+  display: none;
+}
+
+.tw-followCard-button.is-Following:hover .tw-followCard-stopFollow{
+  display: block;
+}
+
+.tw-followCard-stopFollow {
+  display: none;
 }
