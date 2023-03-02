@@ -1,3 +1,5 @@
+/** @format */
+
 import { useState } from "react";
 
 const TURNS = {
@@ -77,10 +79,10 @@ function App() {
 
 		// chequear si hay ganador
 		const newWinner = checkWinner(newBoard);
-		// si hay ganador, renderizar el componente, para poder verlo
 		if (newWinner) {
-			setWinner(newWinner); // la acutalizacion de los estados en React, son asincronos. Por eso primero sale el alert, y despues se completa la x
-			alert(`El ganador es ${newWinner}`);
+			setWinner(newWinner); // la acutalizacion de los estados en React, son asincronos.
+			// alert(`El ganador es ${newWinner}`); //* Por eso primero sale el alert, y despues se completa la x
+			// console.log('winner', winner); //* podemos ver que aun tiene el estado viejo, no cambio
 		}
 	};
 
