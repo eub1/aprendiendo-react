@@ -60,6 +60,19 @@ function App() {
 		return null;
 	};
 
+	const resetGame = () => {
+		setBoard(Array(9).fill(null));
+		setTurn(TURNS.X);
+		setWinner(null);
+	};
+
+	const checkEndGame = (newBoard) => {
+		// revisar si hay un empate
+		// newBoard = ['x', 'o', 'x', 'o', 'x', 'o', 'o', 'x', 'x']  --> empate
+		// me dejo completar el tablero y no hay ningun null
+		return newBoard.every((square) => square !== null);
+	};
+
 	const updateBoard = (index) => {
 		// para evitar sobreescribir - no actualiza la posicion si:
 		// ya tiene algo
@@ -83,12 +96,15 @@ function App() {
 			setWinner(newWinner); // la acutalizacion de los estados en React, son asincronos.
 			// alert(`El ganador es ${newWinner}`); //* Por eso primero sale el alert, y despues se completa la x
 			// console.log('winner', winner); //* podemos ver que aun tiene el estado viejo, no cambio
+		} else if (checkEndGame(newBoard)) {
+			setWinner(false);
 		}
 	};
 
 	return (
 		<main className="board">
 			<h1>TicTacToe</h1>
+			<button onClick={resetGame}>Reset del Juego</button>
 			<section className="game">
 				{board.map((_, index) => {
 					return (
@@ -102,6 +118,19 @@ function App() {
 				<Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
 				<Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
 			</section>
+			{winner !== null && (
+				<section className="winner">
+					<div className="text">
+						<h2>{winner === false ? "Empate" : "Ganador:"}</h2>
+						<header className="win">
+							{winner && <Square>{winner}</Square>}
+						</header>
+						<footer>
+							<button onClick={resetGame}>Empezar de nuevo</button>
+						</footer>
+					</div>
+				</section>
+			)}
 		</main>
 	);
 }
