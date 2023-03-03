@@ -3,34 +3,10 @@
 import { useState } from "react";
 import confetti from "canvas-confetti";
 
-const TURNS = {
-	X: "x",
-	O: "o"
-};
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-	const className = `square ${isSelected ? "is-selected" : ""}`;
-
-	const handleClick = () => {
-		updateBoard(index);
-	};
-	return (
-		<div className={className} onClick={handleClick}>
-			{children}
-		</div>
-	);
-};
-
-const WINNER_COMBOS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6]
-];
+import { Square } from "./components/Square.jsx";
+import { TURNS } from "./constants.js";
+import { checkWinnerFrom, checkEndGame } from "./logic/board.js";
+import { WinnerModal } from "./components/WinnerModal.jsx";
 
 function App() {
 	// necesitamos un estado para guardar cuando el usuario hace click en cada posicion
@@ -44,34 +20,10 @@ function App() {
 	// para saber cuando hay un ganador
 	const [winner, setWinner] = useState(null); // null -> no hay ganador ; false -> empate
 
-	const checkWinner = (boardToCheck) => {
-		for (const combo of WINNER_COMBOS) {
-			// revisamos todas las combinaciones ganadoras
-			// para ver si x u o gano
-			const [a, b, c] = combo; // recuperar lo que hay en las posiciones de combo
-			if (
-				boardToCheck[a] &&
-				boardToCheck[a] === boardToCheck[b] &&
-				boardToCheck[a] === boardToCheck[c]
-			) {
-				return boardToCheck[a];
-			}
-		}
-		// Si no hay ganador.
-		return null;
-	};
-
 	const resetGame = () => {
 		setBoard(Array(9).fill(null));
 		setTurn(TURNS.X);
 		setWinner(null);
-	};
-
-	const checkEndGame = (newBoard) => {
-		// revisar si hay un empate
-		// newBoard = ['x', 'o', 'x', 'o', 'x', 'o', 'o', 'x', 'x']  --> empate
-		// me dejo completar el tablero y no hay ningun null
-		return newBoard.every((square) => square !== null);
 	};
 
 	const updateBoard = (index) => {
@@ -92,7 +44,7 @@ function App() {
 		setTurn(newTurn);
 
 		// chequear si hay ganador
-		const newWinner = checkWinner(newBoard);
+		const newWinner = checkWinnerFrom(newBoard);
 		if (newWinner) {
 			confetti();
 			setWinner(newWinner); // la acutalizacion de los estados en React, son asincronos.
@@ -108,10 +60,10 @@ function App() {
 			<h1>TicTacToe</h1>
 			<button onClick={resetGame}>Reset del Juego</button>
 			<section className="game">
-				{board.map((_, index) => {
+				{board.map((square, index) => {
 					return (
 						<Square key={index} index={index} updateBoard={updateBoard}>
-							{board[index]}
+							{square}
 						</Square>
 					);
 				})}
@@ -120,19 +72,7 @@ function App() {
 				<Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
 				<Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
 			</section>
-			{winner !== null && (
-				<section className="winner">
-					<div className="text">
-						<h2>{winner === false ? "Empate" : "Ganador:"}</h2>
-						<header className="win">
-							{winner && <Square>{winner}</Square>}
-						</header>
-						<footer>
-							<button onClick={resetGame}>Empezar de nuevo</button>
-						</footer>
-					</div>
-				</section>
-			)}
+			<WinnerModal resetGame={resetGame} winner={winner} />
 		</main>
 	);
 }
