@@ -1,6 +1,7 @@
 /** @format */
 
 import { useState } from "react";
+import confetti from "canvas-confetti";
 
 const TURNS = {
 	X: "x",
@@ -93,6 +94,7 @@ function App() {
 		// chequear si hay ganador
 		const newWinner = checkWinner(newBoard);
 		if (newWinner) {
+			confetti();
 			setWinner(newWinner); // la acutalizacion de los estados en React, son asincronos.
 			// alert(`El ganador es ${newWinner}`); //* Por eso primero sale el alert, y despues se completa la x
 			// console.log('winner', winner); //* podemos ver que aun tiene el estado viejo, no cambio
