@@ -7,9 +7,10 @@ import { Square } from "./components/Square.jsx";
 import { TURNS } from "./constants.js";
 import { checkWinnerFrom, checkEndGame } from "./logic/board.js";
 import { WinnerModal } from "./components/WinnerModal.jsx";
+import { resetGameStorage, saveGameToStorage } from "./logic/storage/index.js";
 
 function App() {
-	console.log("render");
+	// console.log("render");
 	// necesitamos un estado para guardar cuando el usuario hace click en cada posicion
 
 	//* si hay una partida guardada
@@ -18,14 +19,15 @@ function App() {
 	// recuperamos board del localStorage.
 	// si hay algo en el storage, hacemos un json parse y lo recuperamos, sino el valor inicial sera el otro.
 
+	//! ERROR EN EL JSON.PARSE SI ES UNDEFINED
 	const [board, setBoard] = useState(() => {
-		console.log("inicializar estado del board");
+		// console.log("inicializar estado del board");
 		const boardFromStorage = window.localStorage.getItem("board");
 		return boardFromStorage
 			? JSON.parse(boardFromStorage)
 			: Array(9).fill(null);
 	});
-	console.log("board", board);
+	// console.log("board", board);
 
 	// necesito saber de quien es el turno, para cada vez que juegue, evaluar si gano o no
 	// El turno lo empieza la x. (estado inicial)
@@ -42,8 +44,7 @@ function App() {
 		setTurn(TURNS.X);
 		setWinner(null);
 
-		window.localStorage.removeItem("board");
-		window.localStorage.removeItem("turn");
+		resetGameStorage();
 	};
 
 	const updateBoard = (index) => {
@@ -64,10 +65,7 @@ function App() {
 		setTurn(newTurn);
 
 		//guardar la partida
-		window.localStorage.setItem("board", JSON.stringify(newBoard));
-		window.localStorage.setItem("turn", newTurn);
-		// 2do param, no podemos pasar un array, el localStorage va a guardar un string)
-		// usa metodo JSON.stringify para convertir en string lo que hay en el array
+		saveGameToStorage({ board: newBoard, turn: newTurn });
 
 		// chequear si hay ganador
 		const newWinner = checkWinnerFrom(newBoard);
