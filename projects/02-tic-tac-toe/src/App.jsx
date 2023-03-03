@@ -9,13 +9,30 @@ import { checkWinnerFrom, checkEndGame } from "./logic/board.js";
 import { WinnerModal } from "./components/WinnerModal.jsx";
 
 function App() {
+	console.log("render");
 	// necesitamos un estado para guardar cuando el usuario hace click en cada posicion
-	const [board, setBoard] = useState(Array(9).fill(null));
+
+	//* si hay una partida guardada
+	// queremos saber si hay algo en el localStorage, si hay, entonces lo tomamos como valor inicial cada vez que se renderiza, monta el componente.
+	// le pasamos una funcion a useState, para poder usar un condicional y verificar que estado toma.
+	// recuperamos board del localStorage.
+	// si hay algo en el storage, hacemos un json parse y lo recuperamos, sino el valor inicial sera el otro.
+
+	const [board, setBoard] = useState(() => {
+		console.log("inicializar estado del board");
+		const boardFromStorage = window.localStorage.getItem("board");
+		return boardFromStorage
+			? JSON.parse(boardFromStorage)
+			: Array(9).fill(null);
+	});
 	console.log("board", board);
 
 	// necesito saber de quien es el turno, para cada vez que juegue, evaluar si gano o no
 	// El turno lo empieza la x. (estado inicial)
-	const [turn, setTurn] = useState(TURNS.X);
+	const [turn, setTurn] = useState(() => {
+		const turnFromStorage = window.localStorage.getItem("turn");
+		return turnFromStorage ?? TURNS.X; // si tengo algo en el storage, uso ese, sino, si es null o undefine, uso turns.x
+	});
 
 	// para saber cuando hay un ganador
 	const [winner, setWinner] = useState(null); // null -> no hay ganador ; false -> empate
@@ -24,6 +41,9 @@ function App() {
 		setBoard(Array(9).fill(null));
 		setTurn(TURNS.X);
 		setWinner(null);
+
+		window.localStorage.removeItem("board");
+		window.localStorage.removeItem("turn");
 	};
 
 	const updateBoard = (index) => {
@@ -42,6 +62,12 @@ function App() {
 
 		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
 		setTurn(newTurn);
+
+		//guardar la partida
+		window.localStorage.setItem("board", JSON.stringify(newBoard));
+		window.localStorage.setItem("turn", newTurn);
+		// 2do param, no podemos pasar un array, el localStorage va a guardar un string)
+		// usa metodo JSON.stringify para convertir en string lo que hay en el array
 
 		// chequear si hay ganador
 		const newWinner = checkWinnerFrom(newBoard);
