@@ -1,3 +1,5 @@
+<!-- @format -->
+
 # aprendiendo-react
 
 Pasos para iniciar:
@@ -11,3 +13,8 @@ Pasos para iniciar:
 7. cd 00-hola-mundo
 8. npm install
 9. npm run dev
+
+Instalar Linter:
+
+1- En raiz del repo (aprendiendo-react) -> npm install standard -D
+2- En package.json, agregar 'eslintConfig:{'extends': './node_modules/standard/eslintrc.json'}
