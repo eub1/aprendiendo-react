@@ -19,7 +19,6 @@ function App() {
 	// recuperamos board del localStorage.
 	// si hay algo en el storage, hacemos un json parse y lo recuperamos, sino el valor inicial sera el otro.
 
-	//! ERROR EN EL JSON.PARSE SI ES UNDEFINED
 	const [board, setBoard] = useState(() => {
 		// console.log("inicializar estado del board");
 		const boardFromStorage = window.localStorage.getItem("board");
