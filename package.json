@@ -14,5 +14,12 @@
   },
   "eslintConfig": {
     "extends":"./node_modules/standard/eslintrc.json"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "spaceBeforeFunctionParen": true
   }
 }
