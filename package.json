@@ -16,7 +16,7 @@
     "extends":"./node_modules/standard/eslintrc.json"
   },
   "prettier": {
-    "trailingComma": "all",
+    "trailingComma": "none",
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
