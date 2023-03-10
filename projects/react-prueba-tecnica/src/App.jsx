@@ -1,34 +1,19 @@
 import { useEffect, useState } from 'react'
 import { getRandomFact } from './services/facts.js'
+import { useCatImage } from './hooks/useCatImage.js'
 
 // CAT_ENDPOINT_IMAGE_URL = `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`
 const CAT_PREFIX_IMAGE_URL = `https://cataas.com`
 
 export function App() {
   const [fact, setFact] = useState()
-  const [imageUrl, setImageUrl] = useState()
+  const { imageUrl } = useCatImage({ fact }) // fact es undefined la primera vez
 
   // c/ vez q se monta el componente ([]), hacer fetching de datos
   // p/ recuperar la al cargar la pagina
   useEffect(() => {
     getRandomFact().then((newFact) => setFact(newFact)) // el setFact se usa en este componente, no se pasa al getRandomFact por parametro // el setFact recibe como parametro el valor que devuelve la promesa
   }, [])
-
-  // p/ recuperar la imagen con c/ cita nueva
-  useEffect(() => {
-    if (!fact) return // xq al primer renderizado no tiene fact, el estado es null
-    const threeFirstWords = fact.split(' ', 3).join(' ')
-    console.log('threeFirstWords: ', threeFirstWords)
-    fetch(
-      `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`
-    )
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response) // p/ ver q tiene response
-        const { url } = response // recupera url de response
-        setImageUrl(url) // en el estado siempre tener lo minimo necesario
-      })
-  }, [fact])
 
   const handleClick = async () => {
     //getRandomFact().then(setFact)
