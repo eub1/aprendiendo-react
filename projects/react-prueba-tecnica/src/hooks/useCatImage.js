@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 //* CUSTOME HOOK
 // para trabajar la logica para recuperar la imagen, necesitamos el estado, y el efecto
 
+const CAT_PREFIX_IMAGE_URL = `https://cataas.com`
+
 export function useCatImage({ fact }) {
   const [imageUrl, setImageUrl] = useState()
   // p/ recuperar la imagen con c/ cita nueva
@@ -21,5 +23,5 @@ export function useCatImage({ fact }) {
       })
   }, [fact])
 
-  return { imageUrl } // este hook devuelve un objeto con el imageUrl
+  return { imageUrl: `${CAT_PREFIX_IMAGE_URL}${imageUrl}` } // este hook devuelve un objeto con el imageUrl y parte de la concatenacion de la url
 }
