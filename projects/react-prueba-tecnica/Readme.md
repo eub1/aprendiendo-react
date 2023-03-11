@@ -53,3 +53,17 @@ En package.json:
 "eslintConfig": {
 "extends":"./node_modules/standard/eslintrc.json"
 }
+
+## TESTING
+
+$ npm init playwright@latest
+
+$ npx playwright test
+
+1. Va a dar el siguiente error con la explicacion de que hacer.
+   playwright.cinfig.js --> playwright.cinfig.cjs
+
+   ReferenceError: require is not defined in ES module scope, you can use import instead
+   This file is being treated as an ES module because it has a '.js' file extension and 'C:\Users\eugea\repos\reactPractice\miDuDev\aprendiendo-react\projects\react-prueba-tecnica\package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+   at file:///C:/Users/eugea/repos/reactPractice/miDuDev/aprendiendo-react/projects/react-prueba-tecnica/playwright.config.js:2:35
+   at ModuleJob.run (node:internal/modules/esm/module_job:193:25)
