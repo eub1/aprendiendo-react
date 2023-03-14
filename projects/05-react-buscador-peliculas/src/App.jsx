@@ -7,7 +7,7 @@ function App() {
   const { movies } = useMovies()
   const { search, updateSearch, error } = useSearch()
 
-  console.log('render')
+  // console.log('render')
 
   const handleSubmit = (event) => {
     event.preventDefault()
