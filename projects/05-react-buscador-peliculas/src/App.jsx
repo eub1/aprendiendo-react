@@ -1,40 +1,57 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { Movies } from './components/Movies.jsx'
 import { useMovies } from './hooks/useMovies.js'
 
-function App() {
-  const { movies } = useMovies()
-  const [query, setQuery] = useState()
-  const [error, setError] = useState()
+// creamos customHook para validar, y extraer logica del componente
+function useSearch() {
+  const [search, updateSearch] = useState('')
+  const [error, setError] = useState(null)
+  const isFirstInput = useRef(true)
 
-  console.log('render')
+  useEffect(() => {
+    // problema: primer input, valida que no se puede buscar peli vacia.
+    // solucion con useRef, verificar que haya escrito aun
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log({ query })
-  }
-  const handleChange = (event) => {
-    // usamos newQuery p/ evitar problema de asincronia del estado.
-    // lo evita, al NO usar el estado directamente.
+    if (isFirstInput.current) {
+      // si es el primer input del usuario, cambiamos el search, en el caso que el valor sea un string vacio
+      // de esta forma evitamos que siga por los otros if, y que re-renderice el componente la primera vez
+      isFirstInput.current = search === ''
+      return
+    }
 
-    const newQuery = event.target.value
-    setQuery(newQuery)
-    if (newQuery === '') {
+    if (search === '') {
       setError('No se puede buscar una pelicula vacia')
       return
     }
 
-    if (newQuery?.match(/^\d+$/)) {
+    if (search?.match(/^\d+$/)) {
       setError('No se puede buscar una pelicula con un numero')
       return
     }
-    if (newQuery?.length < 3) {
+    if (search?.length < 3) {
       setError('La pelicula debe tener al menos 3 caracteres')
       return
     }
 
     setError(null)
+  }, [search])
+
+  return { search, updateSearch, error }
+}
+
+function App() {
+  const { movies } = useMovies()
+  const { search, updateSearch, error } = useSearch()
+
+  console.log('render')
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+  }
+
+  const handleChange = (event) => {
+    updateSearch(event.target.value)
   }
 
   return (
@@ -48,8 +65,8 @@ function App() {
               borderColor: error ? 'red' : 'transparent'
             }}
             onChange={handleChange}
-            value={query}
-            name="query"
+            value={search}
+            name="search"
             placeholder="Avengers, Star Wars, The Matrix ..."
           />
           <button type="submit">Buscar</button>
