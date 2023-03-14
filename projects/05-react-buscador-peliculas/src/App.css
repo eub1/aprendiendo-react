@@ -8,10 +8,20 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* para responsive */
+  width: 100%;
+  max-width: 800px;
 }
 
 form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* esto lo hace responsive */
+.movies {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minnmax(200px, 1fr));
 }
