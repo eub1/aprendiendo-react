@@ -1,8 +1,19 @@
 import './App.css'
-// import withResults from './mocks/with-results.json'
+import { Movies } from './components/Movies'
+import responseMovies from './mocks/with-results.json'
 // import withoutResults from './mocks/no-results.json'
 
 function App() {
+  // cuando hay peliculas? cuando tiene search y es un array (ver mock)
+  const movies = responseMovies.Search
+
+  const mappedMovies = movies?.map((movie) => ({
+    id: movie.imdbID,
+    title: movie.Title,
+    year: movie.Year,
+    poster: movie.Poster
+  }))
+
   return (
     <div className="page">
       <header>
@@ -14,7 +25,7 @@ function App() {
       </header>
 
       <main>
-        <h2>Aqui iran los resultados</h2>
+        <Movies movies={mappedMovies} />
       </main>
     </div>
   )
