@@ -1,22 +1,22 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { searchMovies } from '../services/moviesService'
-
-let previousSerch = ''
 
 export function useMovies({ search }) {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const previousSerch = useRef({ search })
 
   const getMovies = async () => {
-    if (search === previousSerch) return
+    // uso la referencia, para verificar que no vuelva a llamar a la api
+    // por la misma busqueda
+
+    // entonces no hace nada, solo return
+    if (search === previousSerch.current) return
 
     try {
       setLoading(true)
       setError(null)
-
-      previousSerch = search
-
       // recordar que searchMovies es asincrono
       const newMovies = await searchMovies({ search })
 
@@ -31,8 +31,3 @@ export function useMovies({ search }) {
 
   return { movies, getMovies, loading }
 }
-
-// uso la referencia, para verificar que no vuelva a llamar a la api
-// por la misma busqueda
-
-// entonces no hace nada, solo return
