@@ -30,5 +30,3 @@ Primera iteración:
 1. https://watercss.kognise.dev/
 2. section-><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> just copy and paste on the browser -> https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
 3. copy the content of the site, and paste it in index.css
-
-?apikey=b89d738d&s=Avengers
