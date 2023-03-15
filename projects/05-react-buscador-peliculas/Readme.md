@@ -20,6 +20,7 @@ Requerimientos:
 Primera iteración:
 
 ✅ Evitar que se haga la misma búsqueda dos veces seguidas.
+--> previousSearch -> useRef in useMovies Hook
 
 ✅ Haz que la búsqueda se haga automáticamente al escribir.
 
