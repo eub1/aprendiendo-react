@@ -28,7 +28,6 @@ form {
   padding: 0;
 /* esto lo hace responsive */
   display: grid;
-  width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   width: 100%;
   gap: 32px;
