@@ -1,6 +1,8 @@
 main {
   display: flex;
   justify-content: center;
+  /* responsive: para agrupar varios en la pag, que no queden en linea */
+  width: 100%;
 }
 
 .page {
@@ -19,9 +21,28 @@ form {
   align-items: center;
 }
 
-/* esto lo hace responsive */
+
 .movies {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+/* esto lo hace responsive */
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fit, minnmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  width: 100%;
+  gap: 32px;
+}
+
+.movie {
+  text-align: center;
+}
+
+.movie h3, .movie p {
+  margin: 0;
+}
+
+.movie img {
+  border-radius: 8px;
+  margin-top: 16px;
 }
