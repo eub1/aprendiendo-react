@@ -1,16 +1,16 @@
-import responseMovies from '../mocks/with-results.json'
-// import withoutResults from '../mocks/no-results.json'
+import { useState } from 'react'
+import { searchMovies } from '../services/moviesService'
 
-export function useMovies() {
-  // cuando hay peliculas? cuando tiene search y es un array (ver mock)
-  const movies = responseMovies.Search
+export function useMovies({ search }) {
+  const [movies, setMovies] = useState([])
 
-  const mappedMovies = movies?.map((movie) => ({
-    id: movie.imdbID,
-    title: movie.Title,
-    year: movie.Year,
-    poster: movie.Poster
-  }))
+  const getMovies = async () => {
+    // recordar que searchMovies es asincrono
+    const newMovies = await searchMovies({ search })
 
-  return { movies: mappedMovies }
+    // una vez que tenemos movies, cambiamos el estado
+    setMovies(newMovies)
+  }
+
+  return { movies, getMovies }
 }
