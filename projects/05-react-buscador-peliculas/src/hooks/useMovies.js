@@ -5,7 +5,7 @@ export function useMovies({ search }) {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const previousSerch = useRef({ search })
+  const previousSerch = useRef(search)
 
   const getMovies = async () => {
     // uso la referencia, para verificar que no vuelva a llamar a la api
@@ -17,6 +17,8 @@ export function useMovies({ search }) {
     try {
       setLoading(true)
       setError(null)
+
+      previousSerch.current = search
       // recordar que searchMovies es asincrono
       const newMovies = await searchMovies({ search })
 
