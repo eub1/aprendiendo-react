@@ -7,7 +7,7 @@ import { useSearch } from './hooks/useSearch.js'
 function App() {
   const [sort, setSort] = useState(false)
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies, loading } = useMovies({ search })
+  const { movies, getMovies, loading } = useMovies({ search, sort })
 
   // console.log('render')
 
