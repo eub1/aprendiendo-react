@@ -33,7 +33,7 @@ export function useMovies({ search, sort }) {
 
   // useMeMo ... queremos que calcule esto, solo cuando cambie el sort
   const sortedMovies = useMemo(() => {
-    console.log('memoSortedMovies')
+    // console.log('memoSortedMovies')
     return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies
