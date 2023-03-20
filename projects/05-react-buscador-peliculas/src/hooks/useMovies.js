@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { searchMovies } from '../services/moviesService'
 
 export function useMovies({ search, sort }) {
@@ -7,35 +7,24 @@ export function useMovies({ search, sort }) {
   const [error, setError] = useState(null)
   const previousSerch = useRef(search)
 
-  const getMovies = useMemo(() => {
-    // esta funcion necesita el search
-    // para que no se vuelva a calcular con c/ cambio en search
-    // se lo pasamos como parametro (asi evitamos ese re-renderizado de getMovies(), asi se genera la funcion una sola vez)
-    // ahora depende del valor que le inyectamos por param, y no de la dependencia, que lo renderizaba cada vez que cambiaba la dependencia
+  const getMovies = useCallback(async ({ search }) => {
+    if (search === previousSerch.current) return
 
-    return async ({ search }) => {
-      // uso la referencia, para verificar
-      // que no vuelva a llamar a la api por la misma busqueda
+    try {
+      setLoading(true)
+      setError(null)
 
-      if (search === previousSerch.current) return // entonces no hace nada, solo return
+      previousSerch.current = search
 
-      try {
-        setLoading(true)
-        setError(null)
+      const newMovies = await searchMovies({ search })
 
-        previousSerch.current = search
-        // recordar que searchMovies es asincrono
-        const newMovies = await searchMovies({ search })
-
-        // una vez que tenemos movies, cambiamos el estado
-        setMovies(newMovies)
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false)
-      }
+      setMovies(newMovies)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
     }
-  }, []) // no pasamos search como dependencia
+  }, [])
 
   // useMeMo ... queremos que calcule esto, solo cuando cambie el sort
   const sortedMovies = useMemo(() => {
