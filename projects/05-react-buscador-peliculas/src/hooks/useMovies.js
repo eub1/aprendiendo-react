@@ -5,16 +5,22 @@ export function useMovies({ search, sort }) {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const previousSerch = useRef(search)
+  const previousSearch = useRef(search) // usamos estado anterior con useRef
 
   const getMovies = useCallback(async ({ search }) => {
-    if (search === previousSerch.current) return
+    // useCallback recibe {search} x parametro, no como dependencia
+    // asi no se vuelve a calcular, renderizar con cada cambio de search
+    // [], solo se ejecuta getMovies cuando se carga el componente y luego
+    // es el handleChange, o handleSubmit los que ejecutan el getMovies, pasando search por param
+
+    if (search === previousSearch.current) return // si son iguales => return
 
     try {
       setLoading(true)
       setError(null)
 
-      previousSerch.current = search
+      // aqui cambiamos el previousSearch
+      previousSearch.current = search
 
       const newMovies = await searchMovies({ search })
 
@@ -22,7 +28,7 @@ export function useMovies({ search, sort }) {
     } catch (error) {
       setError(error.message)
     } finally {
-      setLoading(false)
+      setLoading(false) // finalmente, cambiamos el estado de loading
     }
   }, [])
 
