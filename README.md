@@ -18,3 +18,12 @@ Instalar Linter:
 
 1- En raiz del repo (aprendiendo-react) -> npm install standard -D
 2- En package.json, agregar 'eslintConfig:{'extends': './node_modules/standard/eslintrc.json'}
+
+## Mono repo: no repetir npm dependencies en cada project, las instala una vez y reutiliza
+
+1. en el package.json de la carpeta ppal escribir:
+   "workspaces":[
+   "projects/*"
+   ],
+2. cd a carpeta ppal, en este caso 'aprendiendo-react'
+3. npm install
