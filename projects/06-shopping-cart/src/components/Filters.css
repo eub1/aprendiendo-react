@@ -6,7 +6,9 @@
   font-weight: 700;
 }
 
+/* que todos los filters, a cada div */
 .filters > div {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
