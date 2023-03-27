@@ -1,5 +1,6 @@
 .cart {
   background: #000;
+  /* para que el carrito no se vea por defecto */
   display: none;
   padding: 32px;
   position: fixed;
@@ -50,6 +51,9 @@
   scale: 1.1;
 }
 
+/* ~ es el selector hermano */
+/* al cart-button, al hermano que este chequeado, y al hermano que sea cart */
+/* le aplicamos ese css */
 .cart-button ~ input:checked ~ .cart {
   height: 100%;
   display: block;
