@@ -1,23 +1,21 @@
-import { useId, useState } from 'react'
+import { useId } from 'react'
+import { useFilters } from '../hooks/useFilters'
 
-export function Filters({ changeFilters }) {
-  // estado para mostrar de cuanto es el rango
-  const [minPrice, setMinPrice] = useState(0)
+export function Filters() {
+  const { filters, setFilters } = useFilters()
+
   const minPriceFilterId = useId()
   const categoryFilterId = useId()
 
   const handleChangeMinPrice = (e) => {
-    // aqui hay un ERROR
-    // DOS FUENTES DE LA VERDAD
-    setMinPrice(e.target.value)
-    changeFilters((prevState) => ({
+    setFilters((prevState) => ({
       ...prevState,
       minPrice: e.target.value
     }))
   }
 
   const handleChangeCategory = (e) => {
-    changeFilters((prevState) => ({
+    setFilters((prevState) => ({
       ...prevState,
       category: e.target.value
     }))
@@ -32,8 +30,9 @@ export function Filters({ changeFilters }) {
           min="0"
           max="1600"
           onChange={handleChangeMinPrice}
+          value={filters.minPrice}
         />
-        <span>${minPrice}</span>{' '}
+        <span>${filters.minPrice}</span>{' '}
         {/* ponerlo despues del range, del input, no antes que da brincos */}
       </div>
 
