@@ -1,4 +1,7 @@
-export function Footer({ filters }) {
+import { useFilters } from '../hooks/useFilters.js'
+
+export function Footer() {
+  const { filters } = useFilters()
   return (
     <footer className="footer">
       <p>debugger for developer mode - change on production!!</p>
