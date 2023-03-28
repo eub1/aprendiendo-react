@@ -19,8 +19,21 @@ export function CartProvider({ children }) {
       const newCart = structuredClone(cart)
       // usamos el indice e incrementamos la cantidad en 1
       newCart[productInCartIndex].quantity += 1
-      setCart(newCart)
+      return setCart(newCart)
     }
+
+    // si producto no esta en el carrito
+    setCart((prevState) => [
+      ...prevState,
+      {
+        ...product,
+        quantity: 1
+      }
+    ])
+  }
+
+  const removeFromCart = (product) => {
+    setCart((prevState) => prevState.filter((item) => item.id !== product.id))
   }
 
   // necesitamos limpiar el cart
@@ -28,7 +41,9 @@ export function CartProvider({ children }) {
     setCart([])
   }
   return (
-    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, clearCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   )
