@@ -24,8 +24,35 @@ export const cartReducer = (state = cartInitialState, action) => {
       const productInCartIndex = state.findIndex((item) => item.id === id)
 
       if (productInCartIndex >= 0) {
-        const newState = structuredClone(state)
-        newState[productInCartIndex].quantity += 1
+        // una forma seria usando structuredClone
+        // const newState = structuredClone(state)
+        // newState[productInCartIndex].quantity += 1
+
+        // usando el map
+        // const newState = state.map((item) => {
+        //   if (item.id === id) {
+        //     return {
+        //       ...item,
+        //       quantity: item.quantity + 1
+        //     }
+        //   }
+        //   return item
+        // })
+
+        // ⚡ usando el spread operator y slice
+        // [1,2,3,4,5] -> cambiamos 3 -> [1, 2, *, 4, 5]
+        const newState = [
+          // se queda con [1,2]
+          ...state.slice(0, productInCartIndex),
+          // cambia el del medio
+          {
+            ...state[productInCartIndex],
+            quantity: state[productInCartIndex].quantity + 1
+          },
+          // deja [4 y 5]
+          ...state.slice(productInCartIndex + 1)
+        ]
+
         updateLocalStorage(newState)
         return newState
       }
